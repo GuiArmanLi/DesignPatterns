@@ -1,0 +1,6 @@
+@CompositeWeb_HostAddress = http://localhost:5084
+
+GET {{CompositeWeb_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
