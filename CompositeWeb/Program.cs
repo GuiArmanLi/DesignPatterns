@@ -1,13 +1,13 @@
-using CompositeWeb.data;
+using CompositeWeb.Data.Extensions;
 using CompositeWeb.Extensions;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
-builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddEntityFramework();
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 
@@ -16,6 +16,9 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseSwaggerUI();
 
-app.UseEndpoints(endpoints => endpoints.MapControllers());
+
+
+app.MapControllers();
+// app.UseEndpoints(endpoints => endpoints.MapControllers());
 
 app.Run();
