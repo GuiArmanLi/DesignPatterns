@@ -4,5 +4,5 @@ namespace CompositeWeb.Domain.Models;
 
 public abstract class BaseEntity
 {
-    [Key] public Guid Id { get; }
+    [Key] public Guid Id { get; set; }
 }

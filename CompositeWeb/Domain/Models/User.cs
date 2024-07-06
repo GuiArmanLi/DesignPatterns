@@ -1,8 +1,15 @@
 ﻿namespace CompositeWeb.Domain.Models;
 
-public class User(string name, string password) : BaseEntity
+public class User : BaseEntity
 {
-    public string Name { get; set; } = name;
+    public string Name { get; set; }
 
-    public string Password { get; set; } = password;
+    public string Password { get; set; }
+
+    public User(string name, string password)
+    {
+        Name = name;
+        Password = password;
+    }
+
 }

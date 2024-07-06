@@ -1,5 +1,6 @@
 ﻿using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Domain.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CompositeWeb.data.Repositories;
 
@@ -7,28 +8,28 @@ public class UserRepository(BaseRepository<User> baseRepository) : IUserReposito
 {
     private BaseRepository<User> _baseRepository = baseRepository;
 
-    public Task GetAllUsers()
+    public async Task<List<User>> GetAllUsers()
     {
-        return _baseRepository.GetAllEntitiesQueryable();
+        return await _baseRepository.GetAllEntities();
     }
 
-    public Task GetUserById(Guid request)
+    public Task<User> GetUserById(Guid request)
     {
-        return _baseRepository.GetEntityByAttribute(request);
+        return _baseRepository.GetEntityById(request);
     }
 
-    public Task PostUser(User request)
+    public Task<User> PostUser(User request)
     {
         return _baseRepository.PostEntity(request);
     }
 
-    public Task PutUser(User request)
+    public Task<User> PutUser(Guid id, User request)
     {
-        return _baseRepository.PutEntity(request);
+        return _baseRepository.PutEntity(id, request);
     }
 
-    public Task DisableAccount(User request) // Arrumar
+    public Task<User> DeleteAccount(Guid request)
     {
-        return null;
+        return _baseRepository.DeleteEntity(request);
     }
 }

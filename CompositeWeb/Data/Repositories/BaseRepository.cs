@@ -1,6 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using CompositeWeb.Data.Context;
 using CompositeWeb.Domain.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompositeWeb.data.Repositories;
@@ -17,36 +19,49 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
         _entity = _context.Set<TEntity>();
     }
 
-    public async Task<IEnumerable<TEntity?>> GetAllEntitiesQueryable(Expression<Func<TEntity, bool>>? filter = null)
+    public async Task<List<TEntity>> GetAllEntities(Expression<Func<TEntity, bool>>? filter = null)
     {
-        var query = _entity.AsQueryable();
-
-        if (filter != null)
-            query = query.Where(filter).AsNoTracking();
-
-        return await query.ToListAsync();
+        return await _entity.ToListAsync();
     }
 
-    public async Task<TEntity?> GetEntityByAttribute(Guid request)
+    public async Task<TEntity?> GetEntityById(Guid request)
     {
         return await _entity.FindAsync(request);
     }
 
-    public async Task PostEntity(TEntity? request)
+    public async Task<TEntity?> PostEntity(TEntity? request)
     {
-        if (request != null) await _entity.AddAsync(request);
+        if (request == null) return null;
+
+        var list = await _entity.ToListAsync();
+
+        await _entity.AddAsync(request);
         await _context.SaveChangesAsync();
+
+        return request;
+    } 
+
+
+    public async Task<TEntity?> PutEntity(Guid id, TEntity? request)
+    {
+        var entity = await _entity.FindAsync(id);
+
+        if (entity == null || request == null) return request;
+        request.Id = id;
+
+        _entity.Entry(entity).CurrentValues.SetValues(request);
+        await _context.SaveChangesAsync();
+
+        return request;
     }
 
-    public async Task PutEntity(TEntity? request)
-    {
-        if (request != null) _entity.Update(request);
-        await _context.SaveChangesAsync();
-    }
 
-    public async Task DeleteEntity(TEntity? request)
+    public async Task<TEntity?> DeleteEntity(Guid request)
     {
-        if (request != null) _entity.Remove(request);
+        var entity = await _entity.FindAsync(request);
+        if (entity != null) _entity.Remove(entity);
         await _context.SaveChangesAsync();
+
+        return entity;
     }
 }

@@ -4,9 +4,9 @@ namespace CompositeWeb.Data.Repositories.Interfaces;
 
 public interface IUserRepository
 {
-    public Task GetAllUsers();
-    public Task GetUserById(Guid request);
-    public Task PostUser(User request);
-    public Task PutUser(User request);
-    public Task DisableAccount(User request);
+    public Task<List<User>> GetAllUsers();
+    public Task<User> GetUserById(Guid request);
+    public Task<User> PostUser(User request);
+    public Task<User> PutUser(Guid id, User request);
+    public Task<User> DeleteAccount(Guid request);
 }

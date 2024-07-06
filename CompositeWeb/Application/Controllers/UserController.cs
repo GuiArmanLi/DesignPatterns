@@ -1,5 +1,4 @@
-﻿using CompositeWeb.data.Repositories;
-using CompositeWeb.Data.Repositories.Interfaces;
+﻿using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +8,7 @@ namespace CompositeWeb.Application.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    private IUserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
     public UserController(IUserRepository userRepository)
     {
@@ -17,26 +16,32 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public Task GetUsers()
+    public async Task<List<User>> GetAllUsers()
     {
-        return _userRepository.GetAllUsers();
+        return await _userRepository.GetAllUsers();
+    }
+
+    [HttpGet("/id")]
+    public Task<User> GetUserById(Guid request)
+    {
+        return _userRepository.GetUserById(request);
     }
 
     [HttpPost]
-    public Task PostUser(User request)
+    public Task<User> PostUser(User request)
     {
         return _userRepository.PostUser(request);
     }
 
-    [HttpPut]
-    public Task PutUser(User request)
+    [HttpPut("/id")]
+    public Task<User> PutUser(Guid id, User request)
     {
-        return _userRepository.PutUser(request);
+        return _userRepository.PutUser(id, request);
     }
 
-    [HttpDelete]
-    public Task DisableAccount(User request)
+    [HttpDelete("/id")]
+    public Task<User> DeleteAccount(Guid request)
     {
-        return _userRepository.DisableAccount(request);
+        return _userRepository.DeleteAccount(request);
     }
 }
