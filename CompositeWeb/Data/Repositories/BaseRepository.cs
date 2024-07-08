@@ -27,20 +27,29 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
         return await _entity.FindAsync(request);
     }
 
-    public async Task<TEntity?> PostEntity(Dictionary<string, object> requestData)
+    public async Task<TEntity?> PostEntity(TEntity? request, object[]? valuesToCompare)
     {
-        
-        
-        // if (request == null) return null;
-        // var list = await _entity.ToListAsync();
-        //
-        // await _context.Users.FirstOrDefaultAsync();
-        //
-        // await _entity.AddAsync(request);
-        // await _context.SaveChangesAsync();
-        //
-        // return request;
-    } 
+        if (valuesToCompare == null || request == null) return null;
+
+        var entities = await _entity.ToListAsync();
+
+        foreach (var entity in entities)
+        {
+            var properties = entity.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                foreach (var value in valuesToCompare)
+                {
+                    if (property.GetValue(entity)?.Equals(value) == true) return null;
+                }
+            }
+        }
+
+        await _entity.AddAsync(request);
+        await _context.SaveChangesAsync();
+
+        return request;
+    }
 
 
     public async Task<TEntity?> PutEntity(Guid id, TEntity? request)

@@ -1,6 +1,5 @@
 ﻿using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Domain.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CompositeWeb.data.Repositories;
 
@@ -13,22 +12,22 @@ public class UserRepository(BaseRepository<User> baseRepository) : IUserReposito
         return await _baseRepository.GetAllEntities();
     }
 
-    public Task<User> GetUserById(Guid request)
+    public Task<User?> GetUserById(Guid request)
     {
         return _baseRepository.GetEntityById(request);
     }
 
-    public Task<User> PostUser(User request)
+    public Task<User?> PostUser(User request)
     {
-        return _baseRepository.PostEntity(request);
+        return _baseRepository.PostEntity(request ,new object[] { request.Name });
     }
 
-    public Task<User> PutUser(Guid id, User request)
+    public Task<User?> PutUser(Guid id, User request)
     {
         return _baseRepository.PutEntity(id, request);
     }
 
-    public Task<User> DeleteAccount(Guid request)
+    public Task<User?> DeleteAccount(Guid request)
     {
         return _baseRepository.DeleteEntity(request);
     }
