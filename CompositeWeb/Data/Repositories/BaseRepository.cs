@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using CompositeWeb.Data.Context;
 using CompositeWeb.Domain.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompositeWeb.data.Repositories;
@@ -29,16 +27,19 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
         return await _entity.FindAsync(request);
     }
 
-    public async Task<TEntity?> PostEntity(TEntity? request)
+    public async Task<TEntity?> PostEntity(Dictionary<string, object> requestData)
     {
-        if (request == null) return null;
-
-        var list = await _entity.ToListAsync();
-
-        await _entity.AddAsync(request);
-        await _context.SaveChangesAsync();
-
-        return request;
+        
+        
+        // if (request == null) return null;
+        // var list = await _entity.ToListAsync();
+        //
+        // await _context.Users.FirstOrDefaultAsync();
+        //
+        // await _entity.AddAsync(request);
+        // await _context.SaveChangesAsync();
+        //
+        // return request;
     } 
 
 

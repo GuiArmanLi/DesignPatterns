@@ -103,3 +103,4 @@ C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\refint\Com
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.pdb
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.genruntimeconfig.cache
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\ref\CompositeWeb.dll
+C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.sourcelink.json

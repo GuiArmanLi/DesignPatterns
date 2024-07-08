@@ -11,8 +11,6 @@ public static class EntityFrameworkSetup
     {
         var connection = GetConnectionString();
 
-        Console.WriteLine(connection);
-
         service.AddDbContext<AppDbContext>(options =>
             options.UseMySql("Server=localhost; Port=3306; Database=compositeweb;User=guilherme;Password=admin;",
                 new MySqlServerVersion(new Version(8, 0, 36))));
