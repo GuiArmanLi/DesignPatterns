@@ -7,6 +7,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration
     : DbContext(options)
 {
     public DbSet<User> Users { get; init; }
+    public DbSet<Book> Books { get; init; }
 
     private IConfiguration _configuration = configuration;
 

@@ -6,42 +6,41 @@ namespace CompositeWeb.Application.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class UserController(IUserRepository userRepository) : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
-
-    public UserController(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-
     [HttpGet]
-    public async Task<List<User>> GetAllUsers()
+    public Task<List<User>> FindAllUsers()
     {
-        return await _userRepository.GetAllUsers();
+        return userRepository.FindAllUsers();
     }
 
-    [HttpGet("/id")]
-    public Task<User> GetUserById(Guid request)
+    [HttpGet("{id:guid}")]
+    public Task<User?> FindUserById(Guid request)
     {
-        return _userRepository.GetUserById(request);
+        return userRepository.FindById(request);
     }
 
     [HttpPost]
-    public Task<User> PostUser(User request)
+    public Task<User?> RegisterUser(User request)
     {
-        return _userRepository.PostUser(request);
+        return userRepository.RegisterUser(request);
     }
 
-    [HttpPut("/id")]
-    public Task<User> PutUser(Guid id, User request)
+    [HttpPut("{id:guid}")]
+    public Task<User?> UpdateUser(Guid id, User request)
     {
-        return _userRepository.PutUser(id, request);
+        return userRepository.UpdateUser(id, request);
     }
 
-    [HttpDelete("/id")]
-    public Task<User> DeleteAccount(Guid request)
+    [HttpDelete("admin/{id:guid}")]
+    public Task<User?> DeleteUser(Guid request)
     {
-        return _userRepository.DeleteAccount(request);
+        return userRepository.DeleteUser(request);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public Task<User?> DisableAccount(Guid request)
+    {
+        return userRepository.DisableAccount(request);
     }
 }

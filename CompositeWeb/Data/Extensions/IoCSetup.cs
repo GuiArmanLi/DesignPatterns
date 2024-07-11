@@ -9,6 +9,7 @@ public static class IoCSetup
     {
         services.AddScoped(typeof(BaseRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IBookRepository, BookRepository>();
 
         return services;
     }

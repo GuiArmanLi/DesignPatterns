@@ -1,0 +1,40 @@
+﻿namespace CompositeWeb.Domain.Models
+{
+    public enum Genres
+    {
+        Action = 1,
+        Adult = 2,
+        Adventure = 3,
+        Comedy = 4,
+        Comic = 5,
+        Drama = 6,
+        Eastern = 7,
+        Ecchi = 8,
+        Fantasy = 9,
+        Harem = 10,
+        Historical = 11,
+        Horror = 12,
+        Isekai = 13,
+        Manga = 14,
+        Manhua = 15,
+        Manhwa = 16,
+        MartialArts = 17,
+        Mystery = 18,
+        Psychological = 19,
+        Romance = 20,
+        RPG = 21,
+        SchoolLife = 22,
+        SciFi = 23,
+        Seinen = 24,
+        Shoujo = 25,
+        Shounen = 26,
+        SiFi = 27,
+        SuperPower = 28,
+        Supernatural = 29,
+        Thriller = 30,
+        Tragedy = 31,
+        Violence = 32,
+        WebComic = 33,
+        Webtoon = 34
+    }
+}

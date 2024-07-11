@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 
 namespace CompositeWeb.Extensions;
 
@@ -51,7 +50,7 @@ public static class SwaggerSetup
     // });
 
 
-    public static void UseSwaggerUI(this IApplicationBuilder builder)
+    public static void UseSwaggerUi(this IApplicationBuilder builder)
     {
         builder.UseSwagger();
         builder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Composite"));

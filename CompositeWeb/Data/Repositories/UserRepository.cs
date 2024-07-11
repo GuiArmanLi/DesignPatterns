@@ -5,30 +5,50 @@ namespace CompositeWeb.data.Repositories;
 
 public class UserRepository(BaseRepository<User> baseRepository) : IUserRepository
 {
-    private BaseRepository<User> _baseRepository = baseRepository;
-
-    public async Task<List<User>> GetAllUsers()
+    public Task<List<User>> FindAllUsers()
     {
-        return await _baseRepository.GetAllEntities();
+        return baseRepository.FindAll();
     }
 
-    public Task<User?> GetUserById(Guid request)
+    public Task<User?> FindUserByProperty(User request)
     {
-        return _baseRepository.GetEntityById(request);
+        return baseRepository.FindByProperty(u => u.Name == request.Name);
     }
 
-    public Task<User?> PostUser(User request)
+    public Task<User?> FindById(Guid id)
     {
-        return _baseRepository.PostEntity(request ,new object[] { request.Name });
+        return baseRepository.FindById(id);
     }
 
-    public Task<User?> PutUser(Guid id, User request)
+    public Task<User?> FindByProperty(User request)
     {
-        return _baseRepository.PutEntity(id, request);
+        return baseRepository.FindByProperty(u => u.Name == request.Name);
     }
 
-    public Task<User?> DeleteAccount(Guid request)
+    public Task<User?> RegisterUser(User request)
     {
-        return _baseRepository.DeleteEntity(request);
+        return baseRepository.RegisterEntity(request, u => u.Email == request.Email);
+    }
+
+    public Task<User?> UpdateUser(Guid id, User request)
+    {
+        return baseRepository.UpdateEntity(id, request);
+    }
+
+    public Task<User?> DeleteUser(Guid request)
+    {
+        return baseRepository.DeleteEntityById(request);
+    }
+
+    public async Task<User?> DisableAccount(Guid request)
+    {
+        var entity = await baseRepository.FindById(request);
+
+        if (entity == null) throw new Exception("Usuario nulo"); // Fazer execao especifica
+
+        entity.IsAccountEnabled = !entity.IsAccountEnabled;
+        await baseRepository.UpdateEntity(entity.Id, entity); //Desabilitar o campo
+
+        return entity;
     }
 }
