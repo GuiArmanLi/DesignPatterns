@@ -57,7 +57,6 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
         var entity = await _dbSet.FindAsync(id);
 
         if (entity == null || request == null) return request;
-        request.Id = id;
 
         _dbSet.Entry(entity).CurrentValues.SetValues(request);
         await _context.SaveChangesAsync();

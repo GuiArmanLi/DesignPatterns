@@ -11,12 +11,13 @@ public class ChapterMapper : IEntityTypeConfiguration<Chapter>
         builder.HasNoKey();
 
         builder.Property(c => c.Title).IsRequired();
-        builder.Property(c => c.Describe).IsRequired();
         builder.Property(c => c.Images).IsRequired();
         builder.Property(c => c.NumberOfChapter).IsRequired();
-        
+
         builder.HasIndex(c => c.NumberOfChapter).IsUnique();
         builder.HasIndex(c => c.PreviousChapter).IsUnique();
         builder.HasIndex(c => c.NextChapter).IsUnique();
+
+        builder.Property(c => c.Title).HasMaxLength(75);
     }
 }

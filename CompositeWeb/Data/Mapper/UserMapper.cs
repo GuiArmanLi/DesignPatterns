@@ -1,7 +1,6 @@
 ﻿using CompositeWeb.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
 
 namespace CompositeWeb.Data.Mapper;
 
@@ -21,6 +20,5 @@ public class UserMapper : IEntityTypeConfiguration<User>
         builder.Property(u => u.Name).HasMaxLength(12);
         builder.Property(u => u.Email).HasMaxLength(30);
         builder.Property(u => u.Password).HasMaxLength(20);
-
     }
 }

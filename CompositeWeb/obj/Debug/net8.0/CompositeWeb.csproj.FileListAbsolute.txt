@@ -105,3 +105,4 @@ C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeW
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\ref\CompositeWeb.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.sourcelink.json
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll

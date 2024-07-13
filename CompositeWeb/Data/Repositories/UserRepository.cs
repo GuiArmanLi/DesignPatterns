@@ -35,19 +35,19 @@ public class UserRepository(BaseRepository<User> baseRepository) : IUserReposito
         return baseRepository.UpdateEntity(id, request);
     }
 
-    public Task<User?> DeleteUser(Guid request)
+    public Task<User?> DeleteUser(Guid id)
     {
-        return baseRepository.DeleteEntityById(request);
+        return baseRepository.DeleteEntityById(id);
     }
 
-    public async Task<User?> DisableAccount(Guid request)
+    public async Task<User?> DisableAccount(Guid id)
     {
-        var entity = await baseRepository.FindById(request);
+        var entity = await baseRepository.FindById(id);
 
-        if (entity == null) throw new Exception("Usuario nulo"); // Fazer execao especifica
+        if (entity == null) throw new ArgumentNullException(@$"User does not exist"); //Tratar excecao
 
         entity.IsAccountEnabled = !entity.IsAccountEnabled;
-        await baseRepository.UpdateEntity(entity.Id, entity); //Desabilitar o campo
+        await baseRepository.UpdateEntity(entity.Id, entity);
 
         return entity;
     }

@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using CompositeWeb.Domain.Models;
+﻿using CompositeWeb.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
@@ -18,17 +17,26 @@ public class BookMapper : IEntityTypeConfiguration<Book>
         builder.Property(b => b.Describe).IsRequired();
         builder.Property(b => b.Genres).IsRequired();
         builder.Property(b => b.Title).IsRequired();
-        
+
         builder.HasIndex(b => b.Title).IsUnique();
         builder.HasIndex(b => b.Image).IsUnique();
         builder.HasIndex(b => b.PositionInRank).IsUnique();
 
         builder.Property(b => b.Title).HasMaxLength(50);
+        builder.Property(b => b.Image).HasMaxLength(300);
         builder.Property(b => b.Author).HasMaxLength(50);
         builder.Property(b => b.Describe).HasMaxLength(500);
 
-        builder.Property(b => b.Chapters)
-            .HasConversion<string>(c => JsonConvert.SerializeObject(c),
-                c => JsonConvert.DeserializeObject<List<Chapter>>(c)!);
+        builder.Property(b => b.Chapters).HasConversion<string>(c =>
+            JsonConvert.SerializeObject(c), c =>
+            JsonConvert.DeserializeObject<List<Chapter>>(c)!);
+
+        builder.Property(b => b.Author).HasConversion<string>(a =>
+            JsonConvert.SerializeObject(a), a =>
+            JsonConvert.DeserializeObject<List<Author>>(a)!);
+
+        builder.Property(b => b.Comments).HasConversion<string>(c =>
+            JsonConvert.SerializeObject(c), c =>
+            JsonConvert.DeserializeObject<List<Comment>>(c));
     }
 }

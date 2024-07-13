@@ -1,4 +1,6 @@
-﻿namespace CompositeWeb.Domain.Models;
+﻿using CompositeWeb.Domain.DTOs;
+
+namespace CompositeWeb.Domain.Models;
 
 //Usar depois DTO e conversao
 public class User : BaseEntity
@@ -7,14 +9,16 @@ public class User : BaseEntity
     public string Password { get; set; }
     public string Email { get; set; }
     public bool IsAccountEnabled { get; set; }
-    public List<Guid> IdFromFavoriteBooks { get; set; }
-
-    public User(string name, string email, string password)
+    public List<Guid> FavoriteBookId { get; init; } //adicionar put methhod para atualizar esse valor
+    public DateTime CreatedAt { get; init; }
+    
+    public static implicit operator User(RequestUserDTO dto) => new User
     {
-        Name = name;
-        Email = email;
-        Password = password;
-        IsAccountEnabled = true;
-        IdFromFavoriteBooks = new List<Guid>();
-    }
+        Name = dto.Name,
+        Email = dto.Email,
+        Password = dto.Password,
+        IsAccountEnabled = true,
+        FavoriteBookId = new List<Guid>(),
+        CreatedAt = DateTime.Now
+    };
 }

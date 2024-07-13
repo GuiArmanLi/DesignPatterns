@@ -1,4 +1,5 @@
 ﻿using CompositeWeb.Data.Repositories.Interfaces;
+using CompositeWeb.Domain.DTOs;
 using CompositeWeb.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,13 +16,13 @@ public class UserController(IUserRepository userRepository) : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public Task<User?> FindUserById(Guid request)
+    public Task<User?> FindUserById(Guid id)
     {
-        return userRepository.FindById(request);
+        return userRepository.FindById(id);
     }
 
     [HttpPost]
-    public Task<User?> RegisterUser(User request)
+    public Task<User?> RegisterUser(RequestUserDTO request)
     {
         return userRepository.RegisterUser(request);
     }
@@ -33,14 +34,14 @@ public class UserController(IUserRepository userRepository) : ControllerBase
     }
 
     [HttpDelete("admin/{id:guid}")]
-    public Task<User?> DeleteUser(Guid request)
+    public Task<User?> DeleteUser(Guid id)
     {
-        return userRepository.DeleteUser(request);
+        return userRepository.DeleteUser(id);
     }
 
     [HttpDelete("{id:guid}")]
-    public Task<User?> DisableAccount(Guid request)
+    public Task<User?> DisableAccount(Guid id)
     {
-        return userRepository.DisableAccount(request);
+        return userRepository.DisableAccount(id);
     }
 }

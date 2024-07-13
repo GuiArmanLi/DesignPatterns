@@ -15,16 +15,19 @@ public class BookController(IBookRepository bookRepository) : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public Task<Book?> FindBookById(Guid request)
+    public Task<Book?> FindBookById(Guid id)
     {
-        return bookRepository.FindBookById(request);
+        return bookRepository.FindBookById(id);
     }
 
+    //adicionar comentario sobre forma do json padrao incorreta pelo swagger
+    //Campo Reply deve ser uma lista vazia ao inves de "string"
     [HttpPost]
     public Task<Book?> RegisterBook(Book request)
     {
         return bookRepository.RegisterBook(request);
     }
+
 
     [HttpPut("{id:guid}")]
     public Task<Book?> UpdateBook(Guid id, Book request)
@@ -32,9 +35,9 @@ public class BookController(IBookRepository bookRepository) : ControllerBase
         return bookRepository.UpdateBook(id, request);
     }
 
-    [HttpDelete("{id:guid}")] // Corrigir deplicacao de parametro no swagger
-    public Task<Book?> DeleteBook(Guid request)
+    [HttpDelete("{id:guid}")]
+    public Task<Book?> DeleteBook(Guid id)
     {
-        return bookRepository.DeleteBook(request);
+        return bookRepository.DeleteBook(id);
     }
 }
