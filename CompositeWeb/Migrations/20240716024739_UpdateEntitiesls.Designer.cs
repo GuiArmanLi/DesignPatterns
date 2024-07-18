@@ -4,6 +4,7 @@ using CompositeWeb.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompositeWeb.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240716024739_UpdateEntitiesls")]
+    partial class UpdateEntitiesls
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,28 +27,12 @@ namespace CompositeWeb.Migrations
 
             modelBuilder.Entity("CompositeWeb.Domain.Models.Author", b =>
                 {
-                    b.Property<string>("Biography")
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
-
                     b.Property<DateOnly?>("DateOfBirth")
                         .HasColumnType("date");
-
-                    b.Property<string>("IdBooks")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Nationality")
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Author");
                 });
@@ -157,8 +144,8 @@ namespace CompositeWeb.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()

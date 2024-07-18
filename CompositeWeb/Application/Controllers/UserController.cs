@@ -1,47 +1,55 @@
-﻿using CompositeWeb.Data.Repositories.Interfaces;
-using CompositeWeb.Domain.DTOs;
-using CompositeWeb.Domain.Models;
+﻿using CompositeWeb.Domain.DTOs;
+using CompositeWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompositeWeb.Application.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(IUserRepository userRepository) : ControllerBase
+public class UserController : ControllerBase //adicionar metodo para patch
 {
-    [HttpGet]
-    public Task<List<User>> FindAllUsers()
+    private readonly IUserService _userService;
+
+    public UserController(IUserService userService)
     {
-        return userRepository.FindAllUsers();
+        _userService = userService;
+    }
+
+    [HttpGet]
+    public Task<List<ResponseUserDTO>> FindAllUsers()
+    {
+        return _userService.FindAllUsers();
     }
 
     [HttpGet("{id:guid}")]
-    public Task<User?> FindUserById(Guid id)
+    public Task<ResponseUserDTO?> FindUserById([FromRoute] Guid id) //testar anotacao
     {
-        return userRepository.FindById(id);
+        return _userService.FindByIdAsync(id);
     }
 
     [HttpPost]
-    public Task<User?> RegisterUser(RequestUserDTO request)
+    public Task<ResponseUserDTO?> RegisterUser([FromBody] RequestUserDtoRegister request)
     {
-        return userRepository.RegisterUser(request);
+        return _userService.RegisterUserAsync(request);
     }
 
     [HttpPut("{id:guid}")]
-    public Task<User?> UpdateUser(Guid id, User request)
+    public Task<ResponseUserDTO?> UpdateUser(Guid id, [FromBody] RequestUserDtoUpdate request)
     {
-        return userRepository.UpdateUser(id, request);
+        return _userService.UpdateUser(id, request);
     }
 
-    [HttpDelete("admin/{id:guid}")]
-    public Task<User?> DeleteUser(Guid id)
-    {
-        return userRepository.DeleteUser(id);
-    }
 
     [HttpDelete("{id:guid}")]
-    public Task<User?> DisableAccount(Guid id)
+    public Task<ResponseUserDTO?> DisableAccount(Guid id)
     {
-        return userRepository.DisableAccount(id);
+        return _userService.DisableAccount(id);
     }
+
+
+    // [HttpDelete("admin/{id:guid}")]
+    // public Task<ResponseUserDTO?> DeleteUser(Guid id)
+    // {
+    // return _userService.DeleteUserAsync(id);
+    // }
 }

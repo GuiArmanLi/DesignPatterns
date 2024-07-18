@@ -1,4 +1,6 @@
-﻿namespace CompositeWeb.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CompositeWeb.Domain.Models;
 
 public class Comment
 {

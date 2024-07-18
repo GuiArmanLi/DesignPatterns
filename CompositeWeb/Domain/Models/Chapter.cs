@@ -1,5 +1,8 @@
-﻿namespace CompositeWeb.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace CompositeWeb.Domain.Models;
+
+[NotMapped]
 public class Chapter
 {
     public string Title { get; set; }

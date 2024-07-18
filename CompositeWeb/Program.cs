@@ -1,3 +1,5 @@
+using CompositeWeb.CrossCutting;
+using CompositeWeb.CrossCutting.DI;
 using CompositeWeb.Data.Extensions;
 using CompositeWeb.Extensions;
 
@@ -13,6 +15,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCors("AllowAll");
 app.UseAuthorization();
 app.UseSwaggerUi();
 

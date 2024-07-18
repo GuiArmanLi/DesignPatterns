@@ -12,21 +12,21 @@ public class BookRepository(BaseRepository<Book> baseRepository) : IBookReposito
 
     public Task<Book?> FindBookById(Guid request)
     {
-        return baseRepository.FindByProperty(u => u.Id == request);
+        return baseRepository.FindByPropertyAsync(u => u.Id == request);
     }
 
     public Task<Book?> RegisterBook(Book request)
     {
-        return baseRepository.RegisterEntity(request, b => b.Title == request.Title);
+        return baseRepository.RegisterEntityAsync(request, b => b.Title == request.Title);
     }
 
     public Task<Book?> UpdateBook(Guid id, Book request)
     {
-        return baseRepository.UpdateEntity(id, request);
+        return baseRepository.UpdateEntityAsync(id, request);
     }
 
     public Task<Book?> DeleteBook(Guid request)
     {
-        return baseRepository.DeleteEntityById(request);
+        return baseRepository.DeleteEntityByIdAsync(request);
     }
 }

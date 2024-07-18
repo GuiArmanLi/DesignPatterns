@@ -17,9 +17,5 @@ public class AuthorMapper : IEntityTypeConfiguration<Author>
         builder.Property(a => a.Name).HasMaxLength(50);
         builder.Property(a => a.Biography).HasMaxLength(150);
         builder.Property(a => a.Nationality).HasMaxLength(20);
-        
-        builder.Ignore(e => e.Name);
-        builder.Ignore(e => e.Biography);
-        builder.Ignore(e => e.IdBooks);
     }
 }

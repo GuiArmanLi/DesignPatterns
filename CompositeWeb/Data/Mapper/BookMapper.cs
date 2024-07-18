@@ -1,5 +1,6 @@
 ﻿using CompositeWeb.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 
@@ -27,16 +28,39 @@ public class BookMapper : IEntityTypeConfiguration<Book>
         builder.Property(b => b.Author).HasMaxLength(50);
         builder.Property(b => b.Describe).HasMaxLength(500);
 
+
+        var valueComparer = new ValueComparer<List<Chapter>>(
+            (c1, c2) =>
+                JsonConvert.SerializeObject(c1) == JsonConvert.SerializeObject(c2),
+            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+            c => JsonConvert.DeserializeObject<List<Chapter>>(JsonConvert.SerializeObject(c))!
+        );
+
         builder.Property(b => b.Chapters).HasConversion<string>(c =>
-            JsonConvert.SerializeObject(c), c =>
-            JsonConvert.DeserializeObject<List<Chapter>>(c)!);
+                JsonConvert.SerializeObject(c), c =>
+                JsonConvert.DeserializeObject<List<Chapter>>(c)!)
+            .Metadata.SetValueComparer(valueComparer);
+
+        var authorComparer = new ValueComparer<List<Author>>(
+            (a1, a2) => JsonConvert.SerializeObject(a1) == JsonConvert.SerializeObject(a2),
+            a => a.Aggregate(0, (ac, av) => HashCode.Combine(ac, av.GetHashCode())),
+            a => JsonConvert.DeserializeObject<List<Author>>(JsonConvert.SerializeObject(a))!
+        );
 
         builder.Property(b => b.Author).HasConversion<string>(a =>
-            JsonConvert.SerializeObject(a), a =>
-            JsonConvert.DeserializeObject<List<Author>>(a)!);
+                JsonConvert.SerializeObject(a), a =>
+                JsonConvert.DeserializeObject<List<Author>>(a)!)
+            .Metadata.SetValueComparer(authorComparer);
+
+        var commentComparer = new ValueComparer<List<Comment>>(
+            (c1, c2) => JsonConvert.SerializeObject(c1) == JsonConvert.SerializeObject(c2),
+            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+            c => JsonConvert.DeserializeObject<List<Comment>>(JsonConvert.SerializeObject(c))!
+        );
 
         builder.Property(b => b.Comments).HasConversion<string>(c =>
-            JsonConvert.SerializeObject(c), c =>
-            JsonConvert.DeserializeObject<List<Comment>>(c));
+                JsonConvert.SerializeObject(c), c =>
+                JsonConvert.DeserializeObject<List<Comment>>(c))
+            .Metadata.SetValueComparer(commentComparer);
     }
 }

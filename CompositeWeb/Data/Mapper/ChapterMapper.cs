@@ -9,7 +9,6 @@ public class ChapterMapper : IEntityTypeConfiguration<Chapter>
     public void Configure(EntityTypeBuilder<Chapter> builder)
     {
         builder.HasNoKey();
-
         builder.Property(c => c.Title).IsRequired();
         builder.Property(c => c.Images).IsRequired();
         builder.Property(c => c.NumberOfChapter).IsRequired();

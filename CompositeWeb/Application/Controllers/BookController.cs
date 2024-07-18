@@ -9,9 +9,9 @@ namespace CompositeWeb.Application.Controllers;
 public class BookController(IBookRepository bookRepository) : ControllerBase
 {
     [HttpGet]
-    public async Task<List<Book>> FindAllBooks()
+    public Task<List<Book>> FindAllBooks()
     {
-        return await bookRepository.FindAllBooks();
+        return bookRepository.FindAllBooks();
     }
 
     [HttpGet("{id:guid}")]

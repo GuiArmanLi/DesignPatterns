@@ -5,50 +5,59 @@ namespace CompositeWeb.data.Repositories;
 
 public class UserRepository(BaseRepository<User> baseRepository) : IUserRepository
 {
-    public Task<List<User>> FindAllUsers()
+    public async Task<List<User>> FindAllUsersAsync()
     {
-        return baseRepository.FindAll();
+        return await baseRepository.FindAll();
     }
 
-    public Task<User?> FindUserByProperty(User request)
+    public Task<User?> FindUserByPropertyAsync(User request)
     {
-        return baseRepository.FindByProperty(u => u.Name == request.Name);
+        return baseRepository.FindByPropertyAsync(u => u.Name == request.Name);
     }
 
-    public Task<User?> FindById(Guid id)
+    public async Task<User?> FindByIdAsync(Guid id)
     {
-        return baseRepository.FindById(id);
+        return await baseRepository.FindById(id);
     }
 
-    public Task<User?> FindByProperty(User request)
+    public Task<User?> FindByPropertyAsync(User request)
     {
-        return baseRepository.FindByProperty(u => u.Name == request.Name);
+        return baseRepository.FindByPropertyAsync(u => u.Name == request.Name);
     }
 
     public Task<User?> RegisterUser(User request)
     {
-        return baseRepository.RegisterEntity(request, u => u.Email == request.Email);
+        return baseRepository.RegisterEntityAsync(request, u => u.Email == request.Email);
     }
 
     public Task<User?> UpdateUser(Guid id, User request)
     {
-        return baseRepository.UpdateEntity(id, request);
+        return baseRepository.UpdateEntityAsync(id, request);
     }
 
-    public Task<User?> DeleteUser(Guid id)
+    public async Task<User?> UpdateUserPartialAsync(Guid id, Dictionary<string, object> request)
     {
-        return baseRepository.DeleteEntityById(id);
+        var user = await baseRepository.FindById(id) ?? throw new ArgumentNullException($"{nameof(request)} invalid");
+
+        var attributes = user.GetType().Attributes;
+        Console.WriteLine(attributes);
+
+        return null;
     }
 
-    public async Task<User?> DisableAccount(Guid id)
+    public async Task<User?> DisableAccountAsync(Guid id)
     {
-        var entity = await baseRepository.FindById(id);
+        var user = await baseRepository.FindById(id) ??
+                   throw new ArgumentNullException(@$"{nameof(id)} invalid");
 
-        if (entity == null) throw new ArgumentNullException(@$"User does not exist"); //Tratar excecao
+        user.IsAccountEnabled = !user.IsAccountEnabled;
 
-        entity.IsAccountEnabled = !entity.IsAccountEnabled;
-        await baseRepository.UpdateEntity(entity.Id, entity);
+        return await baseRepository.UpdateEntityAsync(user.Id, user);
+    }
 
-        return entity;
+
+    public async Task<User?> DeleteUserAsync(Guid id)
+    {
+        return await baseRepository.DeleteEntityByIdAsync(id);
     }
 }

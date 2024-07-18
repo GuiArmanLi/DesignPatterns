@@ -3,9 +3,9 @@ using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Services;
 using CompositeWeb.Services.Interfaces;
 
-namespace CompositeWeb.CrossCutting;
+namespace CompositeWeb.CrossCutting.DI;
 
-public static class IoCSetup
+public static class DependencyInjection
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
