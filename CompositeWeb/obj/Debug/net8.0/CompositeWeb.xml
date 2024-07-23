@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CompositeWeb</name>
+    </assembly>
+    <members>
+        <member name="M:CompositeWeb.Application.Controllers.UserController.DisableAccount(System.Guid)">
+            <summary>
+            Disable the user
+            </summary>
+        </member>
+        <member name="T:CompositeWeb.Migrations.First">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.First.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.First.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.First.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.addJson">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.addJson.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.addJson.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.addJson.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.second">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.second.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.second.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.second.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.FixErrors">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.FixErrors.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.FixErrors.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.FixErrors.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.BookAndChapter">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.BookAndChapter.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.BookAndChapter.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.BookAndChapter.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.AddSomeNewAttributes">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.AddSomeNewAttributes.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.AddSomeNewAttributes.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.AddSomeNewAttributes.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.ChangeUserEntity">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.ChangeUserEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.ChangeUserEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.ChangeUserEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.UpdateEntitiesls">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.UpdateEntitiesls.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.UpdateEntitiesls.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.UpdateEntitiesls.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompositeWeb.Migrations.UpdateEntities">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.UpdateEntities.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.UpdateEntities.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompositeWeb.Migrations.UpdateEntities.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

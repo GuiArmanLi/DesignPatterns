@@ -1,15 +1,16 @@
 ﻿using CompositeWeb.Domain.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CompositeWeb.Services.Interfaces;
 
 public interface IUserService
 {
-    public Task<List<ResponseUserDTO>> FindAllUsers();
-    public Task<ResponseUserDTO?> FindByIdAsync(Guid request); //add from body
-    public Task<ResponseUserDTO?> FindUserByProperty(RequestUserDtoRegister request);
-    public Task<ResponseUserDTO?> RegisterUserAsync(RequestUserDtoRegister request);
-    public Task<ResponseUserDTO?> UpdateUser(Guid id, RequestUserDtoUpdate request);
+    public Task<IActionResult> FindAllUsers();
+    public Task<IActionResult> FindByIdAsync(Guid request); //add from body
+    public Task<IActionResult> FindUserByProperty(RequestUserDtoRegister request);
+    public Task<IActionResult> RegisterUserAsync(RequestUserDtoRegister request);
+    public Task<IActionResult> UpdateUser(Guid id, RequestUserDtoUpdate request);
 
-    public Task<ResponseUserDTO?> DisableAccount(Guid id);
-    public Task<ResponseUserDTO?> DeleteUserAsync(Guid request);
+    public Task<IActionResult> DisableAccount(Guid id);
+    // public Task<IActionResult> DeleteUserAsync(Guid request);
 }

@@ -1,10 +1,15 @@
-﻿using CompositeWeb.Data.Repositories.Interfaces;
+﻿using System.Net;
+using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Domain.DTOs;
 using CompositeWeb.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using HttpResponse = CompositeWeb.Application.Shared.HttpResponse;
 
 namespace CompositeWeb.Services;
 
 public class UserService : IUserService
+
+
 {
     private readonly IUserRepository _userRepository;
     private readonly ILogger<UserService> _logger;
@@ -15,9 +20,14 @@ public class UserService : IUserService
         _logger = logger;
     }
 
-    public Task<List<ResponseUserDTO>> FindAllUsers()
+    public async Task<IActionResult> FindAllUsers()
     {
-        return Task.FromResult(_userRepository.FindAllUsersAsync().Result.Select(user => new ResponseUserDTO()
+        var users = await _userRepository.FindAllUsersAsync();
+
+        if (users.Count == 0)
+            return new HttpResponse(HttpStatusCode.OK, "Does not exist any user");
+
+        var usersFiltered = users.Select(user => new ResponseUserDTO
         {
             Id = user.Id,
             Name = user.Name,
@@ -26,33 +36,49 @@ public class UserService : IUserService
             IsAdult = user.IsAdult,
             IsAccountEnabled = user.IsAccountEnabled,
             FavoriteBookId = user.FavoriteBookId
-        }).ToList());
+        }).ToList();
+
+        return new HttpResponse(HttpStatusCode.OK, usersFiltered);
     }
 
-    public async Task<ResponseUserDTO?> FindByIdAsync(Guid id)
+    public async Task<IActionResult> FindByIdAsync(Guid id)
     {
-        return await _userRepository.FindByIdAsync(id) ??
-               throw new ArgumentNullException($"{nameof(id)} invalid");
+        var user = await _userRepository.FindByIdAsync(id);
+
+        if (user is null)
+            return new HttpResponse(HttpStatusCode.BadRequest, $"Does not exist an user with Id:{id}");
+
+        return new HttpResponse(HttpStatusCode.Accepted, user);
     }
 
-    public async Task<ResponseUserDTO?> FindUserByProperty(RequestUserDtoRegister request)
+    public async Task<IActionResult> FindUserByProperty(RequestUserDtoRegister request)
     {
-        return await _userRepository.FindUserByPropertyAsync(request) ??
-               throw new ArgumentNullException($"{nameof(request)} invalid");
+        var user = await _userRepository.FindUserByPropertyAsync(request);
+        if (user is null)
+            return new HttpResponse(HttpStatusCode.BadRequest);
+
+        return new HttpResponse(HttpStatusCode.OK, user);
     }
 
-    public async Task<ResponseUserDTO?> RegisterUserAsync(RequestUserDtoRegister request)
+    public async Task<IActionResult> RegisterUserAsync(RequestUserDtoRegister request)
     {
-        return await _userRepository.RegisterUser(request) ??
-               throw new ArgumentNullException($"{nameof(request)} invalid");
+        var response = await _userRepository.RegisterUser(request);
+
+        if (response is null)
+            return new HttpResponse(HttpStatusCode.BadRequest, "User already exist");
+
+        return new HttpResponse(HttpStatusCode.Created, response);
     }
 
-    public async Task<ResponseUserDTO?> UpdateUser(Guid id, RequestUserDtoUpdate request)
+    public async Task<IActionResult> UpdateUser(Guid id, RequestUserDtoUpdate request)
     {
-        return await _userRepository.UpdateUser(id, request) ??
-               throw new ArgumentNullException($"{nameof(request)} invalid");
-    }
+        var user = await _userRepository.UpdateUser(id, request);
+        if (user is null)
+            return new HttpResponse(HttpStatusCode.BadRequest,
+                $"The {nameof(request)} is incorrect or does not exit an user with Id:{id}");
 
+        return new HttpResponse(HttpStatusCode.Accepted, user);
+    }
 
     // public async Task<ResponseUserDTO?> UpdateUserPartialAsync(Guid id, RequestUserDTO request)
     // {
@@ -60,17 +86,21 @@ public class UserService : IUserService
     //     return null;
     // }
 
-    public async Task<ResponseUserDTO?> DisableAccount(Guid id)
+    public async Task<IActionResult> DisableAccount(Guid id)
     {
-        return await _userRepository.DisableAccountAsync(id) ??
-               throw new ArgumentNullException($"{nameof(id)} invalid");
+        var user = await _userRepository.DisableAccountAsync(id);
+
+        if (user is null)
+            return new HttpResponse(HttpStatusCode.BadRequest, $"Does not exit an user with Id:{id}");
+
+        var statusAccount = user.IsAccountEnabled ? "activated" : "deleted";
+        return new HttpResponse(HttpStatusCode.Accepted, $"User {user.Name} was {statusAccount}");
     }
 
-
-    public async Task<ResponseUserDTO?> DeleteUserAsync(Guid id)
-    {
-        // return await _userRepository.DeleteUserAsync(id) ??
-        // throw new ArgumentNullException($"{nameof(id)} invalid");
-        return new ResponseUserDTO();
-    }
+    // public async Task<IActionResult> DeleteUserAsync(Guid id)
+    // {
+    // return await _userRepository.DeleteUserAsync(id) ??
+    // throw new ArgumentNullException($"{nameof(id)} invalid");
+    // return null;
+    // }
 }

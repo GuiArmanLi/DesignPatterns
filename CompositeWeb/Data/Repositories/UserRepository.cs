@@ -20,11 +20,6 @@ public class UserRepository(BaseRepository<User> baseRepository) : IUserReposito
         return await baseRepository.FindById(id);
     }
 
-    public Task<User?> FindByPropertyAsync(User request)
-    {
-        return baseRepository.FindByPropertyAsync(u => u.Name == request.Name);
-    }
-
     public Task<User?> RegisterUser(User request)
     {
         return baseRepository.RegisterEntityAsync(request, u => u.Email == request.Email);
@@ -35,26 +30,29 @@ public class UserRepository(BaseRepository<User> baseRepository) : IUserReposito
         return baseRepository.UpdateEntityAsync(id, request);
     }
 
-    public async Task<User?> UpdateUserPartialAsync(Guid id, Dictionary<string, object> request)
-    {
-        var user = await baseRepository.FindById(id) ?? throw new ArgumentNullException($"{nameof(request)} invalid");
-
-        var attributes = user.GetType().Attributes;
-        Console.WriteLine(attributes);
-
-        return null;
-    }
+    // public async Task<User?> UpdateUserPartialAsync(Guid id, Dictionary<string, object> request)
+    // {
+    //     var user = await baseRepository.FindById(id);
+    //
+    //     if (user == null)
+    //         return null;
+    //
+    //     var attributes = user.GetType().Attributes;
+    //     Console.WriteLine(attributes);
+    //
+    //     return null;
+    // }
 
     public async Task<User?> DisableAccountAsync(Guid id)
     {
-        var user = await baseRepository.FindById(id) ??
-                   throw new ArgumentNullException(@$"{nameof(id)} invalid");
+        var user = await baseRepository.FindById(id);
+
+        if (user is null)
+            return null;
 
         user.IsAccountEnabled = !user.IsAccountEnabled;
-
         return await baseRepository.UpdateEntityAsync(user.Id, user);
     }
-
 
     public async Task<User?> DeleteUserAsync(Guid id)
     {

@@ -1,9 +1,7 @@
 ﻿using System.Linq.Expressions;
 using CompositeWeb.Data.Context;
-using CompositeWeb.Domain.DTOs;
 using CompositeWeb.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CompositeWeb.data.Repositories;
 
@@ -37,13 +35,15 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
     public async Task<TEntity?>
         RegisterEntityAsync(TEntity? entity, Expression<Func<TEntity, bool>>? predicate = null)
     {
-        if (entity == null) throw new Exception($"{nameof(entity)} already exist");
+        if (entity is null)
+            return null;
 
         var response = await _dbSet
             .Where(predicate!)
             .FirstOrDefaultAsync();
 
-        if (response != null) throw new Exception($"{nameof(entity)} already exist");
+        if (response != null)
+            return null;
 
         await _dbSet.AddAsync(entity);
         await _context.SaveChangesAsync();
@@ -56,7 +56,7 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
     {
         var entity = await _dbSet.FindAsync(id);
 
-        if (entity == null || request == null) return null;
+        if (entity is null || request is null) return null;
 
         var propertiesToChange = new List<string>() { "Name", "Password", "Email" };
         foreach (var property in typeof(TEntity).GetProperties())
@@ -77,7 +77,11 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
     public async Task<TEntity?> DeleteEntityByIdAsync(Guid request)
     {
         var entity = await _dbSet.FindAsync(request);
-        if (entity != null) _dbSet.Remove(entity);
+
+        if (entity is null)
+            return null;
+
+        _dbSet.Remove(entity);
         await _context.SaveChangesAsync();
 
         return entity;

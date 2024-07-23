@@ -6,7 +6,7 @@ namespace CompositeWeb.Application.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase //adicionar metodo para patch
+public class UserController
 {
     private readonly IUserService _userService;
 
@@ -16,32 +16,36 @@ public class UserController : ControllerBase //adicionar metodo para patch
     }
 
     [HttpGet]
-    public Task<List<ResponseUserDTO>> FindAllUsers()
+    public async Task<IActionResult> FindAllUsers()
     {
-        return _userService.FindAllUsers();
+        return await _userService.FindAllUsers();
     }
 
     [HttpGet("{id:guid}")]
-    public Task<ResponseUserDTO?> FindUserById([FromRoute] Guid id) //testar anotacao
+    public async Task<IActionResult> FindUserById([FromRoute] Guid id)
     {
-        return _userService.FindByIdAsync(id);
+        return await _userService.FindByIdAsync(id);
     }
 
     [HttpPost]
-    public Task<ResponseUserDTO?> RegisterUser([FromBody] RequestUserDtoRegister request)
+    public async Task<IActionResult> RegisterUser([FromBody] RequestUserDtoRegister request)
     {
-        return _userService.RegisterUserAsync(request);
+        return await _userService.RegisterUserAsync(request);
     }
 
     [HttpPut("{id:guid}")]
-    public Task<ResponseUserDTO?> UpdateUser(Guid id, [FromBody] RequestUserDtoUpdate request)
+    public Task<IActionResult> UpdateUser(
+        [FromRoute] Guid id,
+        [FromBody] RequestUserDtoUpdate request)
     {
         return _userService.UpdateUser(id, request);
     }
 
-
-    [HttpDelete("{id:guid}")]
-    public Task<ResponseUserDTO?> DisableAccount(Guid id)
+    /// <summary>
+    /// Disable the user
+    /// </summary>
+    [HttpPatch("{id:guid}")]
+    public Task<IActionResult> DisableAccount(Guid id)
     {
         return _userService.DisableAccount(id);
     }
