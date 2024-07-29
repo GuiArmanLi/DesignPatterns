@@ -1,43 +1,50 @@
-﻿using CompositeWeb.Data.Repositories.Interfaces;
+﻿using CompositeWeb.Domain.DTOs.Request.Book;
 using CompositeWeb.Domain.Models;
+using CompositeWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompositeWeb.Application.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class BookController(IBookRepository bookRepository) : ControllerBase
+public class BookController(IBookService service)
 {
     [HttpGet]
-    public Task<List<Book>> FindAllBooks()
+    public async Task<IActionResult> FindAllBooks()
     {
-        return bookRepository.FindAllBooks();
+        return await service.FindAllBooksAsync();
+    }
+
+    [HttpGet("summaries")]
+    public Task<IActionResult> FindAllBooksSummaries()
+    {
+        return service.FindAllBooksSummariesAsync();
     }
 
     [HttpGet("{id:guid}")]
-    public Task<Book?> FindBookById(Guid id)
+    public Task<IActionResult> FindBookById(Guid id)
     {
-        return bookRepository.FindBookById(id);
+        return service.FindBookById(id);
     }
 
-    //adicionar comentario sobre forma do json padrao incorreta pelo swagger
-    //Campo Reply deve ser uma lista vazia ao inves de "string"
+    /// <summary>
+    /// Reply do Json deve ser uma lista
+    /// </summary>
     [HttpPost]
-    public Task<Book?> RegisterBook(Book request)
+    public Task<IActionResult> RegisterBook(RequestBookDtoRegister request)
     {
-        return bookRepository.RegisterBook(request);
+        return service.RegisterBook(request);
     }
-
 
     [HttpPut("{id:guid}")]
-    public Task<Book?> UpdateBook(Guid id, Book request)
+    public Task<IActionResult> UpdateBook(Guid id, RequestBookDtoRegister request)
     {
-        return bookRepository.UpdateBook(id, request);
+        return service.UpdateBook(id, request);
     }
 
     [HttpDelete("{id:guid}")]
-    public Task<Book?> DeleteBook(Guid id)
+    public Task<IActionResult> DeleteBook(Guid id)
     {
-        return bookRepository.DeleteBook(id);
+        return service.DeleteBook(id);
     }
 }

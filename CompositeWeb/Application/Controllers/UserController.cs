@@ -1,4 +1,5 @@
 ﻿using CompositeWeb.Domain.DTOs;
+using CompositeWeb.Domain.DTOs.Request.User;
 using CompositeWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,31 +7,30 @@ namespace CompositeWeb.Application.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController
+public class UserController(IUserService service)
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
+    [HttpGet]
+    public Task<IActionResult> FindAllUsers()
     {
-        _userService = userService;
+        return service.FindAllUsersAsync();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> FindAllUsers()
+    [HttpGet("summaries")]
+    public Task<IActionResult> FindAllUsersSummaries()
     {
-        return await _userService.FindAllUsers();
+        return service.FindAllUsersSummariesAsync();
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> FindUserById([FromRoute] Guid id)
+    public Task<IActionResult> FindUserById([FromRoute] Guid id)
     {
-        return await _userService.FindByIdAsync(id);
+        return service.FindByIdAsync(id);
     }
 
     [HttpPost]
-    public async Task<IActionResult> RegisterUser([FromBody] RequestUserDtoRegister request)
+    public Task<IActionResult> RegisterUser([FromBody] RequestUserDtoRegister request)
     {
-        return await _userService.RegisterUserAsync(request);
+        return service.RegisterUserAsync(request);
     }
 
     [HttpPut("{id:guid}")]
@@ -38,7 +38,7 @@ public class UserController
         [FromRoute] Guid id,
         [FromBody] RequestUserDtoUpdate request)
     {
-        return _userService.UpdateUser(id, request);
+        return service.UpdateUser(id, request);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class UserController
     [HttpPatch("{id:guid}")]
     public Task<IActionResult> DisableAccount(Guid id)
     {
-        return _userService.DisableAccount(id);
+        return service.DisableAccount(id);
     }
 
 

@@ -14,8 +14,8 @@ public class AuthorMapper : IEntityTypeConfiguration<Author>
 
         builder.HasIndex(a => a.Name).IsUnique();
 
-        builder.Property(a => a.Name).HasMaxLength(50);
+        builder.Property(a => a.Name).HasMaxLength(100);
         builder.Property(a => a.Biography).HasMaxLength(150);
-        builder.Property(a => a.Nationality).HasMaxLength(20);
+        builder.Property(a => a.Nationality).HasMaxLength(50);
     }
 }

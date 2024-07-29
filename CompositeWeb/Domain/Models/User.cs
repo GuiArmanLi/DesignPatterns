@@ -1,4 +1,4 @@
-﻿using CompositeWeb.Domain.DTOs;
+﻿using CompositeWeb.Domain.DTOs.Request.User;
 
 namespace CompositeWeb.Domain.Models;
 
@@ -13,23 +13,38 @@ public class User : BaseEntity
     public List<Guid> FavoriteBookId { get; init; } //adicionar put methhod para atualizar esse valor
     public DateTime CreatedAt { get; init; }
 
-    public static implicit operator User(RequestUserDtoRegister dtoRegister) => new User
+    public User(string name, string email, string password)
     {
-        Name = dtoRegister.Name,
-        Email = dtoRegister.Email,
-        Password = dtoRegister.Password,
-        DateOfBirth = dtoRegister.DateOfBirth,
-        IsAdult = DateTime.Now.Year - dtoRegister.DateOfBirth.Year >= 18 &&
-                  DateTime.Now.DayOfYear > dtoRegister.DateOfBirth.DayOfYear,
-        IsAccountEnabled = true,
-        FavoriteBookId = new List<Guid>(),
-        CreatedAt = DateTime.Now
-    };
+        Name = name;
+        Email = email;
+        Password = password;
+        FavoriteBookId = new List<Guid>();
+    }
 
-    public static implicit operator User(RequestUserDtoUpdate dtoPost) => new User
+    public static implicit operator User(RequestUserDtoUpdate dto) => new User(
+        dto.Name,
+        dto.Email,
+        dto.Password);
+
+    public User(string name, string email, string password, DateOnly dateOfBirth, bool isAdult)
     {
-        Name = dtoPost.Name,
-        Email = dtoPost.Email,
-        Password = dtoPost.Password,
-    };
+        Name = name;
+        Email = email;
+        Password = password;
+        DateOfBirth = dateOfBirth;
+        IsAdult = isAdult;
+        IsAccountEnabled = true;
+        FavoriteBookId = new List<Guid>();
+        CreatedAt = DateTime.Now;
+    }
+
+    public static implicit operator User(RequestUserDtoRegister dto) => new User
+    (
+        dto.Name,
+        dto.Email,
+        dto.Password,
+        dto.DateOfBirth,
+        DateTime.Now.Year - dto.DateOfBirth.Year >= 18 &&
+        DateTime.Now.DayOfYear > dto.DateOfBirth.DayOfYear
+    );
 }

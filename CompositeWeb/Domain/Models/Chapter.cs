@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace CompositeWeb.Domain.Models;
 
-namespace CompositeWeb.Domain.Models;
-
-[NotMapped]
+// [NotMapped]
 public class Chapter
 {
     public string Title { get; set; }

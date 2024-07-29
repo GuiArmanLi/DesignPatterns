@@ -19,6 +19,6 @@ public class UserMapper : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Name).HasMaxLength(12);
         builder.Property(u => u.Email).HasMaxLength(30);
-        builder.Property(u => u.Password).HasMaxLength(20);
+        builder.Property(u => u.Password).HasMaxLength(150);
     }
 }

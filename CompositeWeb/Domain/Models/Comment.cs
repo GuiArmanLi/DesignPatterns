@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CompositeWeb.Domain.Models;
+﻿namespace CompositeWeb.Domain.Models;
 
 public class Comment
 {
@@ -14,6 +12,7 @@ public class Comment
     public Comment()
     {
         UserId = Guid.Empty;
+        Content = string.Empty;
         VoteUp = 0;
         VoteDown = 0;
         Reply = new List<Comment>();

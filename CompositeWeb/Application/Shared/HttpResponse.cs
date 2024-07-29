@@ -6,9 +6,9 @@ namespace CompositeWeb.Application.Shared;
 
 public record HttpResponse : IActionResult
 {
-    public HttpStatusCode HttpStatus { get; init; }
-    public object Content { get; init; }
-    public string Message { get; init; }
+    public HttpStatusCode HttpStatus { get; }
+    public  object? Content { get; }
+    public string? Message { get; }
 
     public HttpResponse(HttpStatusCode httpStatus, object content, string message = "Default message")
     {
@@ -35,8 +35,8 @@ public record HttpResponse : IActionResult
             throw new ArgumentNullException(nameof(context));
         }
 
-        var httpResponse = new HttpResponse(HttpStatus, Content, Message);
-        
+        var httpResponse = new HttpResponse(HttpStatus, Content!, Message!);
+
         var response = context.HttpContext.Response;
         response.StatusCode = (int)httpResponse.HttpStatus;
         response.ContentType = "application/json";

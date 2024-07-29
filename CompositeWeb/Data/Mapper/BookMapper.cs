@@ -12,21 +12,21 @@ public class BookMapper : IEntityTypeConfiguration<Book>
     {
         builder.HasKey(b => b.Id);
 
+        builder.Property(b => b.Title).IsRequired();
+        builder.Property(b => b.Describe).IsRequired();
         builder.Property(b => b.Image).IsRequired();
         builder.Property(b => b.Chapters).IsRequired();
         builder.Property(b => b.Author).IsRequired();
-        builder.Property(b => b.Describe).IsRequired();
         builder.Property(b => b.Genres).IsRequired();
-        builder.Property(b => b.Title).IsRequired();
 
         builder.HasIndex(b => b.Title).IsUnique();
         builder.HasIndex(b => b.Image).IsUnique();
         builder.HasIndex(b => b.PositionInRank).IsUnique();
 
-        builder.Property(b => b.Title).HasMaxLength(50);
-        builder.Property(b => b.Image).HasMaxLength(300);
-        builder.Property(b => b.Author).HasMaxLength(50);
-        builder.Property(b => b.Describe).HasMaxLength(500);
+        builder.Property(b => b.Title).HasMaxLength(100);
+        builder.Property(b => b.Image).HasMaxLength(500);
+        builder.Property(b => b.Author).HasMaxLength(1000);
+        builder.Property(b => b.Describe).HasMaxLength(750);
 
 
         var valueComparer = new ValueComparer<List<Chapter>>(
@@ -60,7 +60,7 @@ public class BookMapper : IEntityTypeConfiguration<Book>
 
         builder.Property(b => b.Comments).HasConversion<string>(c =>
                 JsonConvert.SerializeObject(c), c =>
-                JsonConvert.DeserializeObject<List<Comment>>(c))
+                JsonConvert.DeserializeObject<List<Comment>>(c) ?? new List<Comment>())
             .Metadata.SetValueComparer(commentComparer);
     }
 }
