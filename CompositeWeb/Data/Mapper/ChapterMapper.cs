@@ -1,6 +1,6 @@
-﻿using CompositeWeb.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CompositeWeb.Domain.Models;
 
 namespace CompositeWeb.Data.Mapper;
 
@@ -9,6 +9,7 @@ public class ChapterMapper : IEntityTypeConfiguration<Chapter>
     public void Configure(EntityTypeBuilder<Chapter> builder)
     {
         builder.HasNoKey();
+        
         builder.Property(c => c.Title).IsRequired();
         builder.Property(c => c.Images).IsRequired();
         builder.Property(c => c.NumberOfChapter).IsRequired();

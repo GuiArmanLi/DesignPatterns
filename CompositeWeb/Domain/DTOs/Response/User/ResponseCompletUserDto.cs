@@ -1,4 +1,6 @@
-﻿namespace CompositeWeb.Domain.DTOs.Response.User;
+﻿using CompositeWeb.Domain.DTOs.Response.Book;
+
+namespace CompositeWeb.Domain.DTOs.Response.User;
 
 public record ResponseCompletUserDto(
     Guid Id,
@@ -6,7 +8,5 @@ public record ResponseCompletUserDto(
     string Email,
     bool IsAccountEnabled,
     DateOnly DateOfBirth,
-    bool IsAdult,
-    List<Guid> FavoriteBooksId)
-{
-}
+    bool IsAdult
+);

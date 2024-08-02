@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace CompositeWeb.Domain.Models;
+﻿namespace CompositeWeb.Domain.Models;
 
 public class Author
 {
@@ -13,20 +11,21 @@ public class Author
     public Author()
     {
         Name = string.Empty;
-        Biography = "Nothing about...";
+        Biography = string.Empty;
         DateOfBirth = new DateOnly();
-        Nationality = "Nothing about...";
+        Nationality = string.Empty;
         IdBooks = new List<Guid>();
     }
 
     public Author(string name)
     {
         Name = name;
-        Biography = "Nothing about...";
+        Biography = string.Empty;
         DateOfBirth = new DateOnly();
-        Nationality = "Nothing about...";
+        Nationality = string.Empty;
         IdBooks = new List<Guid>();
     }
+
     public Author(string name, string biography)
     {
         Name = name;
@@ -41,7 +40,7 @@ public class Author
         Nationality = nationality;
         IdBooks = new List<Guid>();
     }
-    
+
     public Author(string name, string biography, string nationality, DateOnly dateOfBirth)
     {
         Name = name;

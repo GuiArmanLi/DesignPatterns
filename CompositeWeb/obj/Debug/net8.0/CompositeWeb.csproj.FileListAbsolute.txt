@@ -15,11 +15,13 @@ C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.OpenApi.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Mono.TextTemplating.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\MySqlConnector.dll
+C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -89,6 +91,7 @@ C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeW
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.csproj.CoreCompileInputs.cache
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.sourcelink.json
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\staticwebassets\msbuild.CompositeWeb.Microsoft.AspNetCore.StaticWebAssets.props
@@ -103,6 +106,3 @@ C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\refint\Com
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.pdb
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.genruntimeconfig.cache
 C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\ref\CompositeWeb.dll
-C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\obj\Debug\net8.0\CompositeWeb.sourcelink.json
-C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Newtonsoft.Json.dll
-C:\Users\Gui\RiderProjects\CompositeWeb\CompositeWeb\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll

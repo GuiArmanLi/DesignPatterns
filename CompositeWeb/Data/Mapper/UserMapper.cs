@@ -1,6 +1,6 @@
-﻿using CompositeWeb.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CompositeWeb.Domain.Models;
 
 namespace CompositeWeb.Data.Mapper;
 

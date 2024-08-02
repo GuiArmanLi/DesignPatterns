@@ -1,7 +1,7 @@
-﻿using CompositeWeb.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using CompositeWeb.Domain.Models;
 using Newtonsoft.Json;
 
 namespace CompositeWeb.Data.Mapper;
@@ -25,7 +25,7 @@ public class BookMapper : IEntityTypeConfiguration<Book>
 
         builder.Property(b => b.Title).HasMaxLength(100);
         builder.Property(b => b.Image).HasMaxLength(500);
-        builder.Property(b => b.Author).HasMaxLength(1000);
+        builder.Property(b => b.Author).HasMaxLength(500);
         builder.Property(b => b.Describe).HasMaxLength(750);
 
 

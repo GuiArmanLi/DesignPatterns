@@ -1,18 +1,19 @@
-﻿namespace CompositeWeb.Domain.Models;
+﻿using CompositeWeb.Domain.DTOs.Request.Book.Chapter;
 
-// [NotMapped]
+namespace CompositeWeb.Domain.Models;
+
 public class Chapter
 {
     public string Title { get; set; }
     public List<string> Images { get; init; }
-    public double NumberOfChapter { get; set; }
-    public double PreviousChapter { get; set; }
+    public double NumberOfChapter { get; init; }
+    public double PreviousChapter { get; init; }
     public double NextChapter { get; set; }
     public DateTime CreatedAt { get; init; }
 
-
     public Chapter(string title, List<string> images, double numberOfChapter)
     {
+        CreatedAt = DateTime.Now;
         Title = title;
         Images = images;
         NumberOfChapter = numberOfChapter;
@@ -20,4 +21,10 @@ public class Chapter
         NextChapter = 0.0; //add logic
         CreatedAt = DateTime.Now;
     }
+
+    public static implicit operator Chapter(ResquestChapterDtoRegister dto) => new Chapter(
+        dto.Title,
+        dto.Images,
+        dto.NumberOfChapter
+    );
 }

@@ -1,5 +1,6 @@
-﻿using CompositeWeb.Domain.DTOs;
+﻿using CompositeWeb.Domain.DTOs.Request.Book;
 using CompositeWeb.Domain.DTOs.Request.User;
+using CompositeWeb.Domain.Models;
 using CompositeWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,13 +43,21 @@ public class UserController(IUserService service)
     }
 
     /// <summary>
-    /// Disable the user
+    /// Disable account
     /// </summary>
-    [HttpPatch("{id:guid}")]
+    [HttpPatch("disableAccount{id:guid}")]
     public Task<IActionResult> DisableAccount(Guid id)
     {
         return service.DisableAccount(id);
     }
+
+    [HttpPatch("updateFavoriteBookList{Id:guid}")]
+    public Task<IActionResult> AddBookToFavoriteList([FromRoute] Guid id, [FromBody] RequestBookDtoRegister book) // Adicionar livros inteiros ao objeto user
+    {
+        return service.AddBookToFavoriteListAsync(id, book);                                                                                                                                                                                                                                                                                                                                                                                         
+    }
+    
+    
 
 
     // [HttpDelete("admin/{id:guid}")]

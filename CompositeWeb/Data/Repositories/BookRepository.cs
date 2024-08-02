@@ -20,9 +20,9 @@ public class BookRepository(BaseRepository<Book> baseRepository) : IBookReposito
         return baseRepository.RegisterEntityAsync(request, b => b.Title == request.Title);
     }
 
-    public Task<Book?> UpdateBook(Guid id, Book request)
+    public Task<Book?> UpdateBook(Guid id, Book request, List<string> propertiesFromObject)
     {
-        return baseRepository.UpdateEntityAsync(id, request);
+        return baseRepository.UpdateEntityAsync(id, request, propertiesFromObject);
     }
 
     public Task<Book?> DeleteBook(Guid request)

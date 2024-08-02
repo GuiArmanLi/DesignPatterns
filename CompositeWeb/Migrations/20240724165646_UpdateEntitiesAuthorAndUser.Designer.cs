@@ -4,6 +4,7 @@ using CompositeWeb.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompositeWeb.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724165646_UpdateEntitiesAuthorAndUser")]
+    partial class UpdateEntitiesAuthorAndUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +40,12 @@ namespace CompositeWeb.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Nationality")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -58,15 +61,14 @@ namespace CompositeWeb.Migrations
 
                     b.Property<string>("Author")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Chapters")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Comments")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
@@ -74,8 +76,8 @@ namespace CompositeWeb.Migrations
 
                     b.Property<string>("Describe")
                         .IsRequired()
-                        .HasMaxLength(750)
-                        .HasColumnType("varchar(750)");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("Genres")
                         .IsRequired()
@@ -83,28 +85,22 @@ namespace CompositeWeb.Migrations
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
 
                     b.Property<bool>("IsBookMarked")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("NumberOfChapters")
-                        .HasColumnType("int");
 
                     b.Property<int>("PositionInRank")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<int>("TotalBookmarked")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -116,8 +112,6 @@ namespace CompositeWeb.Migrations
 
                     b.HasIndex("Title")
                         .IsUnique();
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Books");
                 });
@@ -174,6 +168,10 @@ namespace CompositeWeb.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("FavoriteBookId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsAccountEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -187,8 +185,8 @@ namespace CompositeWeb.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.HasKey("Id");
 
@@ -199,18 +197,6 @@ namespace CompositeWeb.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CompositeWeb.Domain.Models.Book", b =>
-                {
-                    b.HasOne("CompositeWeb.Domain.Models.User", null)
-                        .WithMany("FavoriteBooks")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("CompositeWeb.Domain.Models.User", b =>
-                {
-                    b.Navigation("FavoriteBooks");
                 });
 #pragma warning restore 612, 618
         }

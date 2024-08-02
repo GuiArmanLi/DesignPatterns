@@ -1,10 +1,11 @@
-﻿using System.Net;
-using HttpResponse = CompositeWeb.Application.Shared.HttpResponse;
+﻿using HttpResponse = CompositeWeb.Application.Shared.HttpResponse;
 using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Domain.DTOs.Request.Book;
 using CompositeWeb.Domain.DTOs.Response.Book;
 using CompositeWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using CompositeWeb.Domain.Models;
 
 namespace CompositeWeb.Services;
 
@@ -17,7 +18,7 @@ public class BookService(IBookRepository repository) : IBookService
         if (books.Count == 0)
             return new HttpResponse(HttpStatusCode.OK, "Does not exist any book");
 
-        var booksFiltered = books.Select(book => new ResponseCompletBookDto(
+        var booksFiltered = books.Select(book => new ResponseBookDto(
                 book.Id,
                 book.Title,
                 book.Describe,
@@ -42,7 +43,7 @@ public class BookService(IBookRepository repository) : IBookService
         if (books.Count == 0)
             return new HttpResponse(HttpStatusCode.OK, "Does not exist any book");
 
-        var booksFiltered = books.Select(book => new ResponsePartialBookDto(
+        var booksFiltered = books.Select(book => new ResponseSummariesBookDto(
                 book.Id,
                 book.Title,
                 book.Image,
@@ -58,27 +59,50 @@ public class BookService(IBookRepository repository) : IBookService
         var book = await repository.FindBookById(id);
 
         if (book is null)
-            return new HttpResponse(HttpStatusCode.BadRequest, $"Does not exist an book with Id:{id}");
+            return new HttpResponse(HttpStatusCode.NotFound, $"Does not exist an book with Id:{id}");
 
         return new HttpResponse(HttpStatusCode.OK, book);
     }
 
-    public async Task<IActionResult> RegisterBook(RequestBookDtoRegister book)
+    public async Task<IActionResult> FindBookOrderByRankingAsync()
     {
+        var books = await repository.FindAllBooks();
+
+        if (books.Count == 0)
+            return new HttpResponse(HttpStatusCode.OK, "Does not exist any book");
+
+        var response = books.OrderBy(b => b.PositionInRank);
+
+        return new HttpResponse(HttpStatusCode.Accepted, response, "Order by ascend");
+    }
+
+
+    public async Task<IActionResult> RegisterBook(RequestBookDtoRegister partialBook)
+    {
+        Book book = partialBook;
+
+        book.PositionInRank = repository.FindAllBooks().Result.Count();
+
         var response = await repository.RegisterBook(book);
 
         if (response is null)
-            return new HttpResponse(HttpStatusCode.BadRequest, $"Book with title {book.Title} already exist");
+            return new HttpResponse(HttpStatusCode.BadRequest, $"Book with title {partialBook.Title} already exist");
+
+        var idBook = response.Id;
+        response.Author.ForEach(a => a.IdBooks.Add(idBook));
 
         return new HttpResponse(HttpStatusCode.Created, response);
     }
 
-    public async Task<IActionResult> UpdateBook(Guid id, RequestBookDtoRegister book)
+    public async Task<IActionResult> UpdateBook(Guid id, RequestBookDtoUpdate book)
     {
-        var response = await repository.UpdateBook(id, book);
+        List<string> propertiesFromObject =
+            book.GetType().GetProperties().Where(p => p.Name != "Id").Select(p => p.Name).ToList();
+
+        var response = await repository.UpdateBook(id, book, propertiesFromObject);
 
         if (response is null)
-            return new HttpResponse(HttpStatusCode.BadRequest,
+            return new HttpResponse(HttpStatusCode.NotFound,
                 $"The {nameof(book)} is incorrect or does not exit an user with Id:{id}");
 
         return new HttpResponse(HttpStatusCode.Accepted, book);
@@ -89,7 +113,7 @@ public class BookService(IBookRepository repository) : IBookService
         var response = await repository.DeleteBook(id);
 
         if (response is null)
-            return new HttpResponse(HttpStatusCode.BadGateway, $"Does not exit an book with Id:{id}");
+            return new HttpResponse(HttpStatusCode.NotFound, $"Does not exit an book with Id:{id}");
 
         return new HttpResponse(HttpStatusCode.Accepted, $"Does not exist a Book with Id: {id}");
     }

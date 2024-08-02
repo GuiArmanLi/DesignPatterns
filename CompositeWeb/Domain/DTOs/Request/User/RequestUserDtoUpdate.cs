@@ -1,7 +1,3 @@
 ﻿namespace CompositeWeb.Domain.DTOs.Request.User;
 
-public record RequestUserDtoUpdate(
-    Guid Id,
-    string Name,
-    string Email,
-    string Password);
+public record RequestUserDtoUpdate(string Name, string Email, string Password);

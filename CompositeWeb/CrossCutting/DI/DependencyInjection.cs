@@ -1,7 +1,7 @@
-﻿using CompositeWeb.data.Repositories;
-using CompositeWeb.Data.Repositories.Interfaces;
-using CompositeWeb.Services;
+﻿using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Services.Interfaces;
+using CompositeWeb.data.Repositories;
+using CompositeWeb.Services;
 
 namespace CompositeWeb.CrossCutting.DI;
 

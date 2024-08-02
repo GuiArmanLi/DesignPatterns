@@ -1,15 +1,15 @@
-﻿using CompositeWeb.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using CompositeWeb.Domain.Models;
 
 namespace CompositeWeb.Data.Context;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration)
+public class AppDbContext(DbContextOptions<AppDbContext> options) //, IConfiguration configuration)
     : DbContext(options)
 {
     public DbSet<User> Users { get; init; }
     public DbSet<Book> Books { get; init; }
 
-    private IConfiguration _configuration = configuration;
+    // private IConfiguration _configuration = configuration;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

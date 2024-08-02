@@ -1,14 +1,13 @@
-﻿using System.Linq.Expressions;
-using CompositeWeb.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
 using CompositeWeb.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+using CompositeWeb.Data.Context;
+using System.Linq.Expressions;
 
 namespace CompositeWeb.data.Repositories;
 
 public class BaseRepository<TEntity> where TEntity : BaseEntity
 {
     private readonly AppDbContext _context;
-
     private readonly DbSet<TEntity> _dbSet;
 
     public BaseRepository(AppDbContext context)
@@ -52,13 +51,12 @@ public class BaseRepository<TEntity> where TEntity : BaseEntity
     }
 
 
-    public async Task<TEntity?> UpdateEntityAsync(Guid id, TEntity? request)
+    public async Task<TEntity?> UpdateEntityAsync(Guid id, TEntity? request, List<string> propertiesToChange)
     {
         var entity = await _dbSet.FindAsync(id);
 
         if (entity is null || request is null) return null;
 
-        var propertiesToChange = new List<string>() { "Name", "Password", "Email" };
         foreach (var property in typeof(TEntity).GetProperties())
         {
             var requestValue = property.GetValue(request);

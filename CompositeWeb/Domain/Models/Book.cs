@@ -1,5 +1,4 @@
 ﻿using CompositeWeb.Domain.DTOs.Request.Book;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CompositeWeb.Domain.Models;
 
@@ -9,6 +8,7 @@ public class Book : BaseEntity
     public string Describe { get; set; }
     public string Image { get; set; }
     public List<Chapter> Chapters { get; init; }
+    public int NumberOfChapters { get; set; }
     public int PositionInRank { get; set; }
     public List<Author> Author { get; init; }
     public List<Genres> Genres { get; init; } //Tratar enum
@@ -16,43 +16,6 @@ public class Book : BaseEntity
     public bool IsBookMarked { get; set; }
     public int TotalBookmarked { get; set; }
     public DateTime CreatedAt { get; init; }
-
-    // public Book()
-    // {
-    //     Title = string.Empty;
-    //     Describe = string.Empty;
-    //     Image = string.Empty;
-    //     Author = new List<Author>();
-    //     Genres = new List<Genres>();
-    //     Chapters = new List<Chapter>();
-    //     Comments = new List<Comment>();
-    //     PositionInRank = 0;
-    //     IsBookMarked = false;
-    //     TotalBookmarked = 0;
-    //     CreatedAt = DateTime.Now;
-    // }
-
-    public Book(string title, string describe, string image, List<Genres> genres)
-    {
-        Title = title;
-        Describe = describe;
-        Image = image;
-        Author = new List<Author>();
-        Genres = genres;
-        Chapters = new List<Chapter>();
-        Comments = new List<Comment>();
-        PositionInRank = new Random().Next(1, 100000); //add logic
-        IsBookMarked = false;
-        TotalBookmarked = 0;
-        CreatedAt = DateTime.Now;
-    }
-
-    public static implicit operator Book(RequestBookDtoRegister dto) => new Book(
-        dto.Title,
-        dto.Describe,
-        dto.Image,
-        dto.Genres
-    );
 
     public Book(string title, string describe, string image, List<Author> authors, List<Genres> genres,
         List<Chapter> chapters)
@@ -63,10 +26,33 @@ public class Book : BaseEntity
         Author = authors;
         Genres = genres;
         Chapters = chapters;
+        NumberOfChapters = chapters.Count;
+        PositionInRank = int.MaxValue;
         Comments = new List<Comment>();
-        PositionInRank = new Random().Next(1, 100000); //add logic
         IsBookMarked = false;
         TotalBookmarked = 0;
         CreatedAt = DateTime.Now;
     }
+
+    public static implicit operator Book(RequestBookDtoRegister dto) => new Book(
+        dto.Title,
+        dto.Describe,
+        dto.Image,
+        dto.Authors,
+        dto.Genres,
+        dto.Chapters.ConvertAll(c => new Chapter(c.Title, c.Images, c.NumberOfChapter))
+    );
+
+    public Book(string title, string describe, string image)
+    {
+        Title = title;
+        Describe = describe;
+        Image = image;
+    }
+
+    public static implicit operator Book(RequestBookDtoUpdate dto) => new Book(
+        dto.Title,
+        dto.Describe,
+        dto.Image
+    );
 }

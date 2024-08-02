@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CompositeWeb.Domain.Models;
+﻿namespace CompositeWeb.Domain.Models;
 
 public abstract class BaseEntity
 {

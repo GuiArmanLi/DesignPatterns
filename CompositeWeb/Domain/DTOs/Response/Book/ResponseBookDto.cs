@@ -2,7 +2,7 @@
 
 namespace CompositeWeb.Domain.DTOs.Response.Book;
 
-public record ResponseCompletBookDto(
+public record ResponseBookDto(
     Guid Id,
     string Title,
     string Describe,
@@ -13,6 +13,4 @@ public record ResponseCompletBookDto(
     List<Comment> Comments,
     bool IsBookMarked,
     int TotalBookmarked,
-    int PositionInRank)
-{
-}
+    int PositionInRank);

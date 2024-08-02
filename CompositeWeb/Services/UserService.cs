@@ -1,10 +1,11 @@
-﻿using System.Net;
-using HttpResponse = CompositeWeb.Application.Shared.HttpResponse;
+﻿using HttpResponse = CompositeWeb.Application.Shared.HttpResponse;
 using CompositeWeb.Data.Repositories.Interfaces;
 using CompositeWeb.Domain.DTOs.Response.User;
 using CompositeWeb.Domain.DTOs.Request.User;
+using CompositeWeb.Domain.DTOs.Request.Book;
 using CompositeWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace CompositeWeb.Services;
 
@@ -23,9 +24,8 @@ public class UserService(IUserRepository repository) : IUserService
             user.Email,
             user.IsAccountEnabled,
             user.DateOfBirth,
-            user.IsAdult,
-            user.FavoriteBookId
-        )).ToList();
+            user.IsAdult)
+        );
 
         return new HttpResponse(HttpStatusCode.OK, usersFiltered);
     }
@@ -54,12 +54,22 @@ public class UserService(IUserRepository repository) : IUserService
         if (user is null)
             return new HttpResponse(HttpStatusCode.BadRequest, $"Does not exist an user with Id:{id}");
 
-        return new HttpResponse(HttpStatusCode.Accepted, user);
+        var usersFiltered = new ResponseCompletUserDto(
+            user.Id,
+            user.Name,
+            user.Email,
+            user.IsAccountEnabled,
+            user.DateOfBirth,
+            user.IsAdult
+        );
+
+        return new HttpResponse(HttpStatusCode.Accepted, usersFiltered);
     }
 
     public async Task<IActionResult> FindUserByProperty(RequestUserDtoRegister request)
     {
         var user = await repository.FindUserByPropertyAsync(request);
+
         if (user is null)
             return new HttpResponse(HttpStatusCode.BadRequest);
 
@@ -76,9 +86,23 @@ public class UserService(IUserRepository repository) : IUserService
         return new HttpResponse(HttpStatusCode.Created, response);
     }
 
+    public async Task<IActionResult> AddBookToFavoriteListAsync(Guid id, RequestBookDtoRegister book)
+    {
+        var response = await repository.AddBookToFavoriteListAsync(id, book);
+
+        if (response is null)
+            return new HttpResponse(HttpStatusCode.BadRequest, "User or Book does not exist");
+
+        return new HttpResponse(HttpStatusCode.Accepted, response, "Book was add at the favorite books");
+    }
+
     public async Task<IActionResult> UpdateUser(Guid id, RequestUserDtoUpdate user)
     {
-        var response = await repository.UpdateUser(id, user);
+        List<string> propertiesFromObject =
+            user.GetType().GetProperties().Where(p => p.Name != "Id").Select(p => p.Name).ToList();
+
+        var response = await repository.UpdateUser(id, user, propertiesFromObject);
+
         if (response is null)
             return new HttpResponse(HttpStatusCode.BadRequest,
                 $"The {nameof(user)} is incorrect or does not exit an user with Id:{id}");
@@ -86,11 +110,21 @@ public class UserService(IUserRepository repository) : IUserService
         return new HttpResponse(HttpStatusCode.Accepted, user);
     }
 
-// public async Task<ResponseUserDTO?> UpdateUserPartialAsync(Guid id, RequestUserDTO request)
-// {
-//     _userRepository.UpdateUserPartialAsync(id, request);
-//     return null;
-// }
+    public async Task<IActionResult> UpdateUserPartialAsync(Guid id, RequestUserDtoUpdate request)
+    {
+        var user = await repository.UpdateUserPartialAsync(id, request,
+            new List<string>()
+            {
+                request.Name,
+                request.Email,
+                request.Password
+            });
+        
+        if (user is null)
+            return new HttpResponse(HttpStatusCode.BadRequest, "Somethings goes wrong");
+
+        return new HttpResponse(HttpStatusCode.Accepted, $"{user.Name} was updated");
+    }
 
     public async Task<IActionResult> DisableAccount(Guid id)
     {
@@ -103,10 +137,13 @@ public class UserService(IUserRepository repository) : IUserService
         return new HttpResponse(HttpStatusCode.Accepted, $"User {user.Name} was {statusAccount}");
     }
 
-// public async Task<IActionResult> DeleteUserAsync(Guid id)
-// {
-// return await _userRepository.DeleteUserAsync(id) ??
-// throw new ArgumentNullException($"{nameof(id)} invalid");
-// return null;
-// }
+    public async Task<IActionResult> DeleteUserAsync(Guid id)
+    {
+        var user = await repository.DeleteUserAsync(id);
+
+        if (user is null)
+            return new HttpResponse(HttpStatusCode.BadRequest, $"Something goes wrong");
+
+        return new HttpResponse(HttpStatusCode.Accepted, $"{user.Name} was deleted");
+    }
 }

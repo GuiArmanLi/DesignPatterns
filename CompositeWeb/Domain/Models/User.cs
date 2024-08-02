@@ -10,21 +10,8 @@ public class User : BaseEntity
     public DateOnly DateOfBirth { get; init; }
     public bool IsAdult { get; set; }
     public bool IsAccountEnabled { get; set; }
-    public List<Guid> FavoriteBookId { get; init; } //adicionar put methhod para atualizar esse valor
+    public List<Book> FavoriteBooks { get; init; } //adicionar put methhod para atualizar esse valor
     public DateTime CreatedAt { get; init; }
-
-    public User(string name, string email, string password)
-    {
-        Name = name;
-        Email = email;
-        Password = password;
-        FavoriteBookId = new List<Guid>();
-    }
-
-    public static implicit operator User(RequestUserDtoUpdate dto) => new User(
-        dto.Name,
-        dto.Email,
-        dto.Password);
 
     public User(string name, string email, string password, DateOnly dateOfBirth, bool isAdult)
     {
@@ -34,7 +21,7 @@ public class User : BaseEntity
         DateOfBirth = dateOfBirth;
         IsAdult = isAdult;
         IsAccountEnabled = true;
-        FavoriteBookId = new List<Guid>();
+        FavoriteBooks = new List<Book>();
         CreatedAt = DateTime.Now;
     }
 
@@ -44,7 +31,21 @@ public class User : BaseEntity
         dto.Email,
         dto.Password,
         dto.DateOfBirth,
-        DateTime.Now.Year - dto.DateOfBirth.Year >= 18 &&
-        DateTime.Now.DayOfYear > dto.DateOfBirth.DayOfYear
+        DateTime.Now.Year - dto.DateOfBirth.Year > 18 ||
+        (DateTime.Now.Year - dto.DateOfBirth.Year == 18 &&
+         DateTime.Now.DayOfYear >= dto.DateOfBirth.DayOfYear)
+    );
+
+    public User(string name, string email, string password)
+    {
+        Name = name;
+        Email = email;
+        Password = password;
+    }
+
+    public static implicit operator User(RequestUserDtoUpdate dto) => new User(
+        dto.Name,
+        dto.Email,
+        dto.Password
     );
 }
