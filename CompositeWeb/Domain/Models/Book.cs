@@ -40,7 +40,11 @@ public class Book : BaseEntity
         dto.Image,
         dto.Authors,
         dto.Genres,
-        dto.Chapters.ConvertAll(c => new Chapter(c.Title, c.Images, c.NumberOfChapter))
+        dto.Chapters.ConvertAll(c =>
+            new Chapter(c.Title, c.Images,
+                c.NumberOfChapter != 0 && c.NumberOfChapter <= dto.Chapters.Count
+                    ? c.NumberOfChapter
+                    : dto.Chapters.Count))
     );
 
     public Book(string title, string describe, string image)

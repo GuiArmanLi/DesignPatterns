@@ -46,10 +46,22 @@ public class BookController(IBookService service)
         return service.UpdateBook(id, request);
     }
 
+    [HttpPatch("addNewChapter")]
+    public Task<IActionResult> AddNewChapter(Guid id, ResquestChapterDtoRegister chapter)
+    {
+        return service.AddNewChapterAsync(id, chapter);
+    }
 
     [HttpDelete("{id:guid}")]
     public Task<IActionResult> DeleteBook(Guid id)
     {
         return service.DeleteBook(id);
+    }
+
+    [HttpDelete]
+    public Task<IActionResult> DeleteChapter(Guid bookId, double numberOfChapter)
+    {
+        // return service.DeleteChhapter();
+        return null;
     }
 }

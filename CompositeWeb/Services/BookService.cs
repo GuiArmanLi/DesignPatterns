@@ -1,11 +1,12 @@
 ﻿using HttpResponse = CompositeWeb.Application.Shared.HttpResponse;
+using CompositeWeb.Domain.DTOs.Request.Book.Chapter;
 using CompositeWeb.Data.Repositories.Interfaces;
-using CompositeWeb.Domain.DTOs.Request.Book;
 using CompositeWeb.Domain.DTOs.Response.Book;
+using CompositeWeb.Domain.DTOs.Request.Book;
 using CompositeWeb.Services.Interfaces;
+using CompositeWeb.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using CompositeWeb.Domain.Models;
 
 namespace CompositeWeb.Services;
 
@@ -94,6 +95,20 @@ public class BookService(IBookRepository repository) : IBookService
         return new HttpResponse(HttpStatusCode.Created, response);
     }
 
+    public async Task<IActionResult> AddNewChapterAsync(Guid id, ResquestChapterDtoRegister chapter)
+    {
+        var book = await repository.FindBookById(id);
+
+        if (book is null)
+            return new HttpResponse(HttpStatusCode.NotFound, $"Does not exist a book with id: {id}");
+
+        book.Chapters.Add(chapter);
+
+        await repository.UpdateBook(id, book, new List<string>() { "Chapters" });
+
+        return new HttpResponse(HttpStatusCode.Accepted, book);
+    }
+
     public async Task<IActionResult> UpdateBook(Guid id, RequestBookDtoUpdate book)
     {
         List<string> propertiesFromObject =
@@ -116,5 +131,22 @@ public class BookService(IBookRepository repository) : IBookService
             return new HttpResponse(HttpStatusCode.NotFound, $"Does not exit an book with Id:{id}");
 
         return new HttpResponse(HttpStatusCode.Accepted, $"Does not exist a Book with Id: {id}");
+    }
+
+    public async Task<IActionResult> DeleteChapter(Guid bookId, double numberOfChapter)
+    {
+        var book = await repository.FindBookById(bookId);
+
+        if (book is null)
+            return null;
+
+        if (numberOfChapter < 0 ||
+            book.Chapters.FirstOrDefault(c => c.NumberOfChapter == numberOfChapter)
+        return null;
+
+        book.Chapters.Remove();
+
+
+        return null;
     }
 }
